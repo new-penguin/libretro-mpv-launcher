@@ -26,16 +26,16 @@ Download the Linux core from releases and skip to step 2 or...
 
 3. Make sure mpv-full is installed because regular mpv doesn't have SDL2 support built in.
 
+4. Copy input.conf into your mpv config directory, normally ~/home/user/.config/mpv.
 
 ## Usage
 
-1. Copy input.conf into your mpv config directory, normally ~/home/user/.config/mpv.
 
-2. Import videos intro Retroarch.
+1. Import videos into Retroarch.
 
-3. Watch videos.
+2. Watch videos.
 
-* To do: Possibly implement overlay and CRT shader so we can party like it's 1985.
+* To do: Possibly implement a TV overlay and CRT scanline shader so we can party like it's 1985.
 
 ## Contributors
 
