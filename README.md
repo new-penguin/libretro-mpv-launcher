@@ -6,6 +6,12 @@ Based on [libretro-dolphin-launcher](https://github.com/RobLoach/libretro-dolphi
 
 Launch videos with [RetroArch](http://www.libretro.com/) using [MPV](https://mpv.io/)
 
+* To do: Works with .m4v videos. With other file types the built-in player wants to take over. Currently the only workaround is to change the extension of your videos to m4v. A fix may be coming. Also possibly implement a TV overlay and CRT scanline shader so we can party like it's 1985. For a CRT shader you can add the provided glsl file and add the following to line 142 in launcher.c
+
+  ``` bash
+  --glsl-shaders=~~/shaders/crt-mpv.glsl
+  ```
+
 
 ## Installation
 
@@ -35,11 +41,6 @@ Download the Linux core from releases and skip to step 2 or...
 
 2. Watch videos.
 
-* To do: Possibly implement a TV overlay and CRT scanline shader so we can party like it's 1985. For a CRT shader you can add the provided glsl file and add  the following to line 142 in launcher.c
-
-  ``` bash
-  --glsl-shaders=~~/shaders/crt-mpv.glsl
-  ```
 
 ## Contributors
 
