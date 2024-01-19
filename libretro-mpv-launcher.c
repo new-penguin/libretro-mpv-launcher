@@ -43,10 +43,10 @@ void retro_set_controller_port_device(unsigned port, unsigned device)
 void retro_get_system_info(struct retro_system_info *info)
 {
    memset(info, 0, sizeof(*info));
-   info->library_name     = "Cemu Launcher";
+   info->library_name     = "MPV Launcher";
    info->library_version  = "1.0";
    info->need_fullpath    = true;
-   info->valid_extensions = "bin|iso|img|wud|wux|rpx|dump|chd";
+   info->valid_extensions = "*";
 }
 
 static retro_video_refresh_t video_cb;
@@ -121,7 +121,7 @@ void retro_reset(void)
 /**
  * libretro callback; Called every game tick.
  *
- * Once the core has run, we will attempt to exit, since cemu is done.
+ * Once the core has run, we will attempt to exit, since mpv is done.
  */
 void retro_run(void)
 {
@@ -129,7 +129,7 @@ void retro_run(void)
    unsigned stride = 320;
    video_cb(frame_buf, 320, 240, stride << 2);
 
-   // Shutdown the environment now that cemu has loaded and quit.
+   // Shutdown the environment now that mpv has loaded and quit.
    environ_cb(RETRO_ENVIRONMENT_SHUTDOWN, NULL);
 }
 
@@ -138,45 +138,21 @@ void retro_run(void)
  */
 bool retro_load_game(const struct retro_game_info *info)
 {
-   // Launch without the gui if available (cemu).
-   char command[512] = "~/.config/retroarch/system/antimicrox.AppImage --tray || flatpak run io.github.antimicrox.antimicrox --tray || antimicrox --tray & cemu -f -g";
+   // Launch without the gui if available (mpv).
+   char command[512] = "mpv --input-gamepad=yes --fullscreen";
 
    // Check if there is content to load.
    if (info != NULL && info->path != NULL && info->path[0] != '\0') {
       sprintf(command, "%s \"%s\"", command, info->path);
    }
 
-   // Check if running cemu works.
+   // Check if running mpv works.
    if (system(command) == 0) {
-      printf("libretro-cemu-launcher: Completed Cemu\n");
+      printf("libretro-mpv-launcher: Completed MPV\n");
       return true;
    }
 
-   // Flatpak
-   printf("libretro-cemu-launcher: Cemu not found. Attempting Flatpak...\n");
-   strcpy(command, "flatpak run info.cemu.Cemu -f -g");
-   if (info != NULL && info->path != NULL && info->path[0] != '\0') {
-      // Execute with --batch.
-      sprintf(command, "%s \"%s\"", command, info->path);
-   }
-   if (system(command) == 0) {
-      printf("libretro-cemu-launcher: Finished running Cemu through Flatpak.\n");
-      return true;
-   }
-
-   // AppImage
-   printf("libretro-cemu-launcher: Cemu not found. Attempting AppImage...\n");
-   strcpy(command, "~/.config/retroarch/system/cemu.AppImage -f -g");
-   if (info != NULL && info->path != NULL && info->path[0] != '\0') {
-      // Execute with --batch.
-      sprintf(command, "%s \"%s\"", command, info->path);
-   }
-   if (system(command) == 0) {
-      printf("libretro-cemu-launcher: Finished running Cemu through AppImage.\n");
-      return true;
-   }
-
-   printf("libretro-cemu-launcher: Failed running Cemu. Install it and try again.\n");
+   printf("libretro-mpv-launcher: Failed running MPV. Install it and try again.\n");
    return false;
 }
 
